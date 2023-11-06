@@ -1,0 +1,56 @@
+%Define Environments
+\newtheorem*{remark}{Remark}
+\newtheorem*{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{proc}{Procedure}
+%
+%Other useful stuff
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %to number a single line in gather*
+%Shortcuts for Mathematical Expressions
+%Use operatorname instead of text to get non-italic variables
+%Units
+\newcommand{\m}{\text{ m}}
+\newcommand{\cm}{\text{ cm}}
+\newcommand{\mm}{\text{ mm}}
+\newcommand{\mum}{\ \mu \text{m}}
+\newcommand{\GHz}{\text{ GHz}}
+\newcommand{\dB}{\text{ dB}}
+%General
+\renewcommand{\exp}[1]{\text{exp}\left(#1\right)}
+\newcommand{\e}[1]{\mathrm{e}^{#1}}
+\newcommand{\imagunit}{\mathrm{i}}
+\newcommand{\real}[1]{\Re\left\{ #1 \right\}}
+\newcommand{\imag}[1]{\Im\left\{ #1 \right\}}
+\newcommand{\realnumbers}{\mathbb{R}}
+\newcommand{\complexnumbers}{\mathbb{C}}
+\newcommand{\der}[1]{\partial_{#1}}
+\newcommand{\dtheta}{\partial_\theta}
+\newcommand{\dt}{\partial_t}
+\newcommand{\diff}{\mathcal{D}}
+\newcommand{\expdiff}[1]{\mathcal{D}^{#1}}
+%Linear Algebra
+\newcommand{\scalarproduct}[2]{\left( #1, #2 \right)}
+\newcommand{\Tr}[1]{\operatorname{Tr}\left[ #1 \right]}
+\newcommand{\bigbracksTr}[1]{\operatorname{Tr}\big[ #1 \big]}
+\newcommand{\unity}{\mathds{1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\greekvec}[1]{\bm{#1}}
+\newcommand{\unityvec}[1]{\vec{\hat{e}}_{#1}}
+\newcommand{\transpose}{\mathrm{T}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+%vector calculus
+\newcommand{\diver}[1]{\vec{\nabla} \cdot \vec{#1}}
+\newcommand{\rot}[1]{\vec{\nabla} \times \vec{#1}}
+\newcommand{\grad}{\vec{\nabla}}
+%Electro Dynamics
+\newcommand{\EField}{\vec{E}}
+\newcommand{\DField}{\vec{D}}
+\newcommand{\HField}{\vec{H}}
+\newcommand{\BField}{\vec{B}}
+%Statistics
+\newcommand{\CovMat}[1]{\mat{K}_{#1 #1}}
+%Tracking
+\newcommand{\ip}{\hat{\vec{r}}}
+\newcommand{\ipCoord}{\vec{r}}
+\newcommand{\ipCoordShifted}{\overline{\vec{r}}}

@@ -1,10 +1,10 @@
 \documentclass[12pt,a4paper]{scrarticle}
 
 \usepackage{theme/acts}
-
-\usepackage{lipsum}
+\usepackage{mathtools}
 
 \input{metadata.tex}
+\input{macros.sty}
 
 \begin{document}
 
@@ -16,72 +16,74 @@
 
 \tableofcontents
 
-\section{Introduction}
-
-We closely follow the description in \cite{adams1995}.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{example-image-a}
-    \caption{This is a caption for a figure!}
-    \label{fig:example_a}
-\end{figure}
-
-\lipsum[1] 
-
-As discussed in \autoref{fig:example_a}, the results are very promising.
-
-\section{Method}
-
-\begin{figure}[ht]
-    \begin{subfigure}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{example-image-a}
-        \caption{This is a caption for a figure!}
-        \label{fig:sub:example_a}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{example-image-b}
-        \caption{This is a caption for a figure!}
-        \label{fig:sub:example_b}
-    \end{subfigure}
-
-    \caption{This is a combined caption, \subref{fig:sub:example_a} shows one
-    thing, \subref{fig:sub:example_b} shows another thing}
-    \label{fig:sub}
-\end{figure}
-
-\lipsum[1] 
-
-See \autoref{fig:sub} for an example of a combined figure.
-
-\lipsum[1] 
-
-\begin{equation}
-    a^2 + b^2 = c^2
-    \label{eq:pythagoras}
-\end{equation}
-
-The business with the triangles, our boy Pythagoras has already figured out, according to \autoref{eq:pythagoras}.
-
-\section{Conclusion}
-
-\lipsum[1] 
-
-\appendix
-
-\section{Auxiliary material}
-\subsection{First subsection}
-
-\lipsum[1] 
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{example-image-a}
-    \caption{This is a caption for a figure!}
-    \label{fig:appendix_example_a}
-\end{figure}
+ \section{Maximum}
+Given the impact parameters $\ip \coloneqq (d_0, z_0, t_0)$ of a track in Perigee parametrization, one can model the probability of the particle passing exactly through a point $\ipCoord = (d, z, t)$ using a multivariate Gaussian distribution \cite{multivariate-gaussian}:
+\begin{align*}
+    P(d, z, t) \propto \left(\det \CovMat{\ip}\right)^{-\frac{1}{2}}\ \exp{- \frac{1}{2} \ \ipCoordShifted^{\transpose} \ \CovMat{\ip}^{-1} \ \ipCoordShifted},
+\end{align*}
+%
+where $\ipCoordShifted \coloneq \ipCoord - \ip$ and $\CovMat{\ip}^{-1}$ is the impact parameter covariance matrix. In the following, we will calculate the maximum of $P(0, z, t)$, as we only consider the track density along the $z$-axis in the vertex seeding. Since exponential functions are monotonic, we can find the maximum by maximizing the exponent. Due to the minus sign of the latter, the problem reduces to 
+\begin{align}
+\label{eq:target}
+    \ipCoordShifted^{\transpose} \ \CovMat{\ip}^{-1} \ \ipCoordShifted \big|_{d = 0}\rightarrow \text{min}.
+\end{align}
+%
+To minimize a multivariate function, we need to identify its critical points. As we will see in the following, the expression above corresponds to a convex quadratic function. Therefore, it will have exactly one critical point which will correspond to its minimum. To obtain the critical point, we need to solve
+\begin{align*}
+    \grad_{z, t} \ \ipCoordShifted^{\transpose} \ \CovMat{\ip}^{-1} \ \ipCoordShifted \big|_{d = 0} = 0.
+\end{align*}
+%
+Denoting the entry in the $i$th row and $j$th column of $\CovMat{\ip}^{-1}$ as $W_{ij}$ and writing the impact parameters as $\overline{z} \coloneq z - z_0$, we find:
+\begin{align*}
+    \ipCoordShifted^{\transpose} \ \CovMat{\ip}^{-1} \ \ipCoordShifted \big|_{d = 0} = W_{11} d_0^2 + W_{22} \overline{z}^2 + W_{33} \overline{t}^2 - 2 W_{12} d_0 \overline{z} - 2 W_{13} d_0 \overline{t} + 2 W_{23}  \overline{z} \overline{t},
+\end{align*}
+where we used the symmetry of the weight matrix (i.e., the inverse covariance matrix). Noting that $\der{z} = \der{\overline{z}}$, the conditions for the critical point read
+\begin{align*}
+    W_{22} \overline{z} - W_{12} d_0 + W_{23} \overline{t} &= 0 \\
+    W_{33} \overline{t} - W_{13} d_0 + W_{23} \overline{z} &= 0
+\end{align*}
+Solving these equations yields
+\begin{align*}
+    \overline{z}^* &= \frac{W_{12} W_{33} - W_{13} W_{23}}{W_{22} W_{33} - W_{23}^2} \ d_0 \\
+    \overline{t}^* &= \frac{W_{13} W_{22} - W_{12} W_{23}}{W_{22} W_{33} - W_{23}^2} \ d_0,
+\end{align*}
+%
+where we observe the symmetry of the variables as imposed by \autoref{eq:target}.
+\section{Width in $z$-direction}
+We can find the width of the peak in z direction by fixing $\overline{t} = \overline{t}^*$ and treating the exponent as a function of $z$. Then,
+\begin{align*}
+\label{eq:target}
+    &\hphantom{=} -\frac{1}{2} \ipCoordShifted^{\transpose} \ \CovMat{\ip}^{-1} \ \ipCoordShifted \big|_{d = 0,\ \overline{t} = \overline{t}^*} \\
+    &= -\frac{1}{2} \left(W_{22} \overline{z}^2  + 2 (W_{23} \overline{t} - W_{12} d_0) \overline{z} + W_{11} d_0^2 + W_{33} {\overline{t}^*}^2 - 2 W_{13} d_0 \overline{t}^* \right) \\
+    &= -\frac{1}{2} \Big(W_{22} z^2  + 2 (W_{23} \overline{t}^* - W_{12} d_0 - z_0) z \\ 
+    &\hphantom{=} - 2 (W_{23} \overline{t}^* - W_{12} d_0) z_0 + W_{22} z_0^2 + W_{11} d_0^2 + W_{33} {\overline{t}^*}^2 - 2 W_{13} d_0 \overline{t}^* \Big) \\
+    &= -\frac{1}{2} W_{22} z^2 - (W_{23} \overline{t}^* - W_{12} d_0 - z_0) z \\ 
+    &\hphantom{=} + (W_{23} \overline{t}^* - W_{12} d_0) z_0 -\frac{1}{2} (W_{22} z_0^2 + W_{11} d_0^2 + W_{33} {\overline{t}^*}^2) + W_{13} d_0 \overline{t}^* \\
+    &\equiv \alpha  z^2 + \beta z + \gamma,
+\end{align*}
+where \begin{align*}
+    \alpha &\coloneqq -\frac{1}{2} W_{22} \\
+    \beta &\coloneqq - (W_{23} \overline{t}^* - W_{12} d_0 - z_0) \\
+    \gamma &\coloneqq (W_{23} \overline{t}^* - W_{12} d_0) z_0 -\frac{1}{2} (W_{22} z_0^2 + W_{11} d_0^2 + W_{33} {\overline{t}^*}^2) + W_{13} d_0 \overline{t}^*.
+\end{align*}
+%
+Completing the square furnishes 
+\begin{align*}
+    -\frac{1}{2} \ipCoordShifted^{\transpose} \ \CovMat{\ip}^{-1} \ \ipCoordShifted \big|_{d = 0,\ \overline{t} = \overline{t}^*} = \alpha \left( z + \frac{\beta}{2 \alpha}\right)^2 + \gamma -\frac{\beta^2}{4 \alpha}.
+\end{align*}
+%
+A comparison to a one dimensional Gaussian yields
+\begin{align*}
+    \sigma 
+    &= \frac{1}{\sqrt{- 2 \alpha}} \\
+    &= \frac{1}{\sqrt{W_{22}}},
+\end{align*}
+and thus \cite{fwhm}
+\begin{align*}
+    \text{FWHM}
+    &= 2 \sqrt{2 \ln{2}} \sigma \\
+    &=  2 \sqrt{\frac{2 \ln{2}}{W_{22}}}. 
+\end{align*}
 
 \printbibliography{}
 
