@@ -1,0 +1,53 @@
+name: Build LaTeX document
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install LaTeX
+        run: >-
+          sudo apt-get update
+          && sudo apt-get install -y
+          texlive
+          texlive-luatex
+          texlive-latex-recommended
+          texlive-latex-extra
+          texlive-bibtex-extra
+          biber
+          fonts-noto-color-emoji
+          latexmk
+
+
+      - name: Compile LaTeX document
+        run: |
+          latexmk -pdf -interaction=nonstopmode -halt-on-error
+
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build/*.pdf
+
+
+      - name: Make release
+        if: startsWith(github.event.ref, 'refs/tags/')
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/*.pdf"
+          artifactContentType: "application/pdf"
