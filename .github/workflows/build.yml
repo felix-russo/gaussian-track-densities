@@ -51,3 +51,4 @@ jobs:
         with:
           artifacts: "build/*.pdf"
           artifactContentType: "application/pdf"
+          allowUpdates: true
